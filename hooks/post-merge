@@ -1,18 +1,15 @@
 BUCKET_NAME=<YOUR_S3_STATIC_SITE_NAME_HERE>
 CLOUDFRONT_DISTRO_ID=<YOUR_CLOUDFRONT_DISTRO_ID>
 
-echo 'AWS_CLI version is: '
-aws --version
-echo 'npm version is: '
-npm -v
-echo 'node version is: '
-node -v
-
-branch=$(git symbolic-ref HEAD | sed -e "s/^refs\/heads\///");
-
-echo Current branch is: $branch
-
 if [ "main" == "$branch" ]; then
+    echo 'AWS_CLI version is: '
+    aws --version
+    echo 'npm version is: '
+    npm -v
+    echo 'node version is: '
+    node -v
+    branch=$(git symbolic-ref HEAD | sed -e "s/^refs\/heads\///");
+    echo Current branch is: $branch
     npm install
     npm run export
     aws s3 rm --recursive s3://$BUCKET_NAME
